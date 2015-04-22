@@ -13,6 +13,7 @@ import uy.edu.um.telmovil.msg.Msg;
 import uy.edu.um.telmovil.msg.RegistrationConfirmationMsg;
 import uy.edu.um.telmovil.msg.RegistrationMsg;
 import uy.edu.um.telmovil.msg.SimpleMsg;
+import uy.edu.um.telmovil.utils.ConstantesGenerales;
 
 import com.google.gson.Gson;
 
@@ -24,10 +25,17 @@ public class BaseStation {
 	private String radioBaseName = "Default";
 	private ArrayList<Conection> conexiones;
 	private long maxConections = 10;
+	private int conexionSocket = 2182;
 	
-	@SuppressWarnings(value={ "unused", "resource" })
-	private void startListening() throws IOException{
-		ServerSocket welcomeSocket = new ServerSocket(2182);
+	
+	public BaseStation(long maxConections) {
+		this.maxConections=maxConections;
+		this.conexiones=new ArrayList<Conection>();
+	}
+	
+	@SuppressWarnings(value={"resource"})
+	public void startListening() throws IOException{
+		ServerSocket welcomeSocket = new ServerSocket(conexionSocket);
 		System.out.println("RadioBase initiated, start listening...");
 		String clientSentence;
 		while(true)
@@ -35,17 +43,16 @@ public class BaseStation {
 			Socket connectionSocket = welcomeSocket.accept();
 			System.out.println("INFO: incoming conection from: "+connectionSocket.getInetAddress());
 			BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-			DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
 			clientSentence = inFromClient.readLine();
-			
 			
 			Msg mensaje = MsgManager.obtenerMsgFromString(clientSentence);
 			Msg responseToClient = null;
-			if(mensaje instanceof RegistrationMsg){
-				responseToClient = doRegistration(mensaje);
+			if(mensaje!=null && mensaje.getTipo().equals(ConstantesGenerales.TIPO_MSG_REGISTRATION_MSG)){
+				responseToClient = doRegistration(gson.fromJson(clientSentence, RegistrationMsg.class));
 			}
 
-			outToClient.writeBytes(gson.toJson(responseToClient));
+			DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
+			outToClient.writeBytes(gson.toJson(responseToClient)+"\n");
 			outToClient.flush();
 		
 		}
@@ -85,8 +92,6 @@ public class BaseStation {
 	}
 
 	public static void main(String[] args) throws IOException {
-		BaseStation radio1 = new BaseStation();
-		radio1.startListening();
 	}
 
 	public ArrayList<Conection> getConexiones() {
@@ -103,5 +108,13 @@ public class BaseStation {
 
 	public void setRadioBaseName(String radioBaseName) {
 		this.radioBaseName = radioBaseName;
+	}
+	
+	public int getConexionSocket() {
+		return conexionSocket;
+	}
+
+	public void setConexionSocket(int conexionSocket) {
+		this.conexionSocket = conexionSocket;
 	}
 }
