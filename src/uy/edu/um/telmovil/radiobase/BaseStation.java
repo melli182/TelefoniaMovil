@@ -8,6 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import uy.edu.um.telmovil.exception.InvalidMinException;
+import uy.edu.um.telmovil.exception.NoMoreConectionAvailableException;
 import uy.edu.um.telmovil.mgr.MsgManager;
 import uy.edu.um.telmovil.msg.Msg;
 import uy.edu.um.telmovil.msg.RegistrationConfirmationMsg;
@@ -17,6 +19,7 @@ import uy.edu.um.telmovil.terminal.Terminal;
 import uy.edu.um.telmovil.utils.ConstantesGenerales;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 public class BaseStation {
 	
@@ -49,7 +52,7 @@ public class BaseStation {
 			Msg mensaje = MsgManager.obtenerMsgFromString(clientSentence);
 			Msg responseToClient = null;
 			if(mensaje!=null && mensaje.getTipo().equals(ConstantesGenerales.TIPO_MSG_REGISTRATION_MSG)){
-				responseToClient = doRegistration(gson.fromJson(clientSentence, RegistrationMsg.class));
+					responseToClient = doRegistration(gson.fromJson(clientSentence, RegistrationMsg.class));
 			}
 
 			DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
@@ -59,25 +62,31 @@ public class BaseStation {
 		}
 	}
 	
-	private Msg doRegistration(Msg mensaje) {
+	@SuppressWarnings(value="null")
+	private Msg doRegistration(Msg mensaje){
 		RegistrationMsg regMsg = (RegistrationMsg) mensaje;
+		RegistrationConfirmationMsg msg = new RegistrationConfirmationMsg();
 		if(validate(regMsg.getMin())){
-			Terminal newTerminal = addTerminalToRadioBase(regMsg);
-			RegistrationConfirmationMsg msg = new RegistrationConfirmationMsg();
-			msg.setResponse(RegistrationConfirmationMsg.RESPONSE_OK);
-			msg.setId(newTerminal.getMin());
+			Terminal newTerminal = null;
+			try {
+				newTerminal = addTerminalToRadioBase(regMsg);
+				msg.setResponse(RegistrationConfirmationMsg.RESPONSE_OK);
+				msg.setId(newTerminal.getMin());
+			} catch (NoMoreConectionAvailableException e) {
+				msg.setResponse(RegistrationConfirmationMsg.RESPONSE_FAIL);
+				msg.setId(newTerminal.getMin());
+			}
 			return msg;
 		}else{
-			return null;
-			//throw exception not valid min!!!
+			msg.setResponse(RegistrationConfirmationMsg.RESPONSE_INVALID);
+			msg.setId(regMsg.getMin());
+			return msg;
 		}
-		
 	}
 
-	private Terminal addTerminalToRadioBase(RegistrationMsg regMsg) {
+	private Terminal addTerminalToRadioBase(RegistrationMsg regMsg) throws NoMoreConectionAvailableException {
 		if(this.conexiones.size()>= this.maxConections){
-			//throw nomoreconectionavailables!!!
-			
+			throw new NoMoreConectionAvailableException();
 		}else{
 			Terminal ter = new Terminal(regMsg.getMin(),regMsg.getMsn());
 			if(!isInList(ter)){
@@ -85,7 +94,6 @@ public class BaseStation {
 			}
 			return ter;
 		}
-		return null;
 	}
 	
 	
@@ -103,10 +111,7 @@ public class BaseStation {
 	 * @return
 	 */
 	private boolean validate(String min) {
-		return true;
-	}
-
-	public static void main(String[] args) throws IOException {
+		return (new Double(Math.random()*1000).intValue() % 2 == 0);
 	}
 
 	public ArrayList<Terminal> getConexiones() {
@@ -131,5 +136,13 @@ public class BaseStation {
 
 	public void setConexionSocket(int conexionSocket) {
 		this.conexionSocket = conexionSocket;
+	}
+	
+	public static void main(String[] args) {
+		BaseStation base = new BaseStation(2);
+		System.out.println(new Double(Math.random()*1000).intValue() % 2 == 0);
+		System.out.println(base.validate(""));
+		System.out.println(base.validate(""));
+		System.out.println(base.validate(""));
 	}
 }

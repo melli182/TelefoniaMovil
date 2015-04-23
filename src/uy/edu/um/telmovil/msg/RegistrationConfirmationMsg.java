@@ -3,6 +3,8 @@ package uy.edu.um.telmovil.msg;
 public class RegistrationConfirmationMsg extends Msg {
 
 	public final static String RESPONSE_OK = "OK";
+	public final static String RESPONSE_FAIL = "FAIL";
+	public final static String RESPONSE_INVALID = "INVALID";
 	
 	private String response;
 	private String id;
