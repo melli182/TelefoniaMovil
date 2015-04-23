@@ -13,6 +13,7 @@ import uy.edu.um.telmovil.msg.Msg;
 import uy.edu.um.telmovil.msg.RegistrationConfirmationMsg;
 import uy.edu.um.telmovil.msg.RegistrationMsg;
 import uy.edu.um.telmovil.msg.SimpleMsg;
+import uy.edu.um.telmovil.terminal.Terminal;
 import uy.edu.um.telmovil.utils.ConstantesGenerales;
 
 import com.google.gson.Gson;
@@ -23,14 +24,14 @@ public class BaseStation {
 	
 	
 	private String radioBaseName = "Default";
-	private ArrayList<Conection> conexiones;
+	private ArrayList<Terminal> conexiones;
 	private long maxConections = 10;
 	private int conexionSocket = 2182;
 	
 	
 	public BaseStation(long maxConections) {
 		this.maxConections=maxConections;
-		this.conexiones=new ArrayList<Conection>();
+		this.conexiones=new ArrayList<Terminal>();
 	}
 	
 	@SuppressWarnings(value={"resource"})
@@ -61,10 +62,10 @@ public class BaseStation {
 	private Msg doRegistration(Msg mensaje) {
 		RegistrationMsg regMsg = (RegistrationMsg) mensaje;
 		if(validate(regMsg.getMin())){
-			Conection newConection = addConectionToRadioBase(regMsg);
+			Terminal newTerminal = addTerminalToRadioBase(regMsg);
 			RegistrationConfirmationMsg msg = new RegistrationConfirmationMsg();
 			msg.setResponse(RegistrationConfirmationMsg.RESPONSE_OK);
-			msg.setId(newConection.getId());
+			msg.setId(newTerminal.getMin());
 			return msg;
 		}else{
 			return null;
@@ -73,20 +74,34 @@ public class BaseStation {
 		
 	}
 
-	private Conection addConectionToRadioBase(RegistrationMsg regMsg) {
+	private Terminal addTerminalToRadioBase(RegistrationMsg regMsg) {
 		if(this.conexiones.size()>= this.maxConections){
 			//throw nomoreconectionavailables!!!
 			
 		}else{
-			Conection con = new Conection();
-			con.setId(this.getRadioBaseName()+"-"+Long.toHexString(System.currentTimeMillis()));
-			con.setMin(regMsg.getMin());
-			con.setState(Conection.ESTADO_REGISTERED);
-			return con;
+			Terminal ter = new Terminal(regMsg.getMin(),regMsg.getMsn());
+			if(!isInList(ter)){
+				this.getConexiones().add(ter);
+			}
+			return ter;
 		}
 		return null;
 	}
+	
+	
+	private boolean isInList(Terminal ter) {
+		for (Terminal terminal : conexiones) {
+			if(terminal.getMin().equals(ter.getMin()))
+				return true;
+		}
+		return false;
+	}
 
+	/**
+	 * Valida contra una base de datos si no es robado...
+	 * @param min
+	 * @return
+	 */
 	private boolean validate(String min) {
 		return true;
 	}
@@ -94,11 +109,11 @@ public class BaseStation {
 	public static void main(String[] args) throws IOException {
 	}
 
-	public ArrayList<Conection> getConexiones() {
+	public ArrayList<Terminal> getConexiones() {
 		return conexiones;
 	}
 
-	public void setConexiones(ArrayList<Conection> conexiones) {
+	public void setConexiones(ArrayList<Terminal> conexiones) {
 		this.conexiones = conexiones;
 	}
 

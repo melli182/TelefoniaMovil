@@ -19,15 +19,21 @@ import com.google.gson.Gson;
 
 public class Terminal {
 
-	private String terminalID;
+	private String min;
+	private String msn;
 	
 	private static final Gson gson = new Gson();
+	
+	public Terminal(String min, String msn) {
+		this.min=min;
+		this.msn=msn;
+	}
 
 	public void register(int socket) throws IOException{
 //		int socket = base.getConexionSocket();
 		RegistrationMsg msg = new RegistrationMsg();
-		msg.setMin(terminalID);
-		msg.setMsn(terminalID);
+		msg.setMin(this.min);
+		msg.setMsn(this.msn);
 		msg.setTipo(ConstantesGenerales.TIPO_MSG_REGISTRATION_MSG);
 		String respuesta = sendRequest(msg, socket);
 	}
@@ -42,12 +48,22 @@ public class Terminal {
 		System.out.println("Respuesta desde el servidor: "+(response));
 		return response;
 	}
-	
-	public String getTerminalID() {
-		return terminalID;
+
+	public String getMin() {
+		return min;
 	}
 
-	public void setTerminalID(String terminalID) {
-		this.terminalID = terminalID;
+	public void setMin(String min) {
+		this.min = min;
 	}
+
+	public String getMsn() {
+		return msn;
+	}
+
+	public void setMsn(String msn) {
+		this.msn = msn;
+	}
+	
+	
 }
