@@ -2,10 +2,10 @@ package uy.edu.um.telmovil.mgr;
 
 import com.google.gson.Gson;
 
+import uy.edu.um.telmovil.commons.ConstantesGenerales;
 import uy.edu.um.telmovil.msg.GenericMsg;
 import uy.edu.um.telmovil.msg.Msg;
 import uy.edu.um.telmovil.msg.SimpleMsg;
-import uy.edu.um.telmovil.utils.ConstantesGenerales;
 
 public class MsgManager {
 

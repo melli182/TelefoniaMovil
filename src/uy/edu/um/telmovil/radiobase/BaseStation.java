@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import uy.edu.um.telmovil.commons.ConstantesGenerales;
 import uy.edu.um.telmovil.exception.InvalidMinException;
 import uy.edu.um.telmovil.exception.NoMoreConectionAvailableException;
 import uy.edu.um.telmovil.mgr.MsgManager;
@@ -16,7 +17,6 @@ import uy.edu.um.telmovil.msg.RegistrationConfirmationMsg;
 import uy.edu.um.telmovil.msg.RegistrationMsg;
 import uy.edu.um.telmovil.msg.SimpleMsg;
 import uy.edu.um.telmovil.terminal.Terminal;
-import uy.edu.um.telmovil.utils.ConstantesGenerales;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;

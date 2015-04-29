@@ -9,11 +9,11 @@ import java.net.Socket;
 
 import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
 
+import uy.edu.um.telmovil.commons.ConstantesGenerales;
 import uy.edu.um.telmovil.msg.Msg;
 import uy.edu.um.telmovil.msg.RegistrationMsg;
 import uy.edu.um.telmovil.msg.SimpleMsg;
 import uy.edu.um.telmovil.radiobase.BaseStation;
-import uy.edu.um.telmovil.utils.ConstantesGenerales;
 
 import com.google.gson.Gson;
 

@@ -1,4 +1,4 @@
-package uy.edu.um.telmovil.utils;
+package uy.edu.um.telmovil.test;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ public class TestTerminal {
 
 
 	public static void main(String[] args) throws IOException {
-		Terminal terminal = new Terminal("min","msn");
+		Terminal terminal = new Terminal("min2","msn2");
 		terminal.register(2182);
 	}
 
