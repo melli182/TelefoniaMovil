@@ -1,4 +1,4 @@
-package uy.edu.um.telmovil.commons;
+package uy.edu.um.telmovil.commons.components;
 
 import com.google.gson.Gson;
 
@@ -9,7 +9,7 @@ import uy.edu.um.telmovil.msg.Msg;
  * @author mcaamano
  *
  */
-public class EIR {
+public class GMSC {
 
 	
 
