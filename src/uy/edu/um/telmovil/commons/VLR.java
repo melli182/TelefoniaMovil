@@ -9,6 +9,6 @@ package uy.edu.um.telmovil.commons;
  */
 public class VLR {
 
-	
+	private long ines;
 
 }
