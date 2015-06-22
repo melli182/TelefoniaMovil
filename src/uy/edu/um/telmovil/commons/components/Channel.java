@@ -7,8 +7,11 @@ public class Channel {
 	}
 	
 	private long id;
+	//acnecdotico
 	private double minFrecuency;
 	private double maxFrecuency;
+	//
+	private long port;
 	private boolean inUse;
 
 }
