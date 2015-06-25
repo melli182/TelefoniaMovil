@@ -23,7 +23,7 @@ import com.google.gson.Gson;
  * 	deberan utilzar este componente. 
  *
  */
-public class MTP{
+public class MTP implements Runnable{
 	
 	private int SSN;
 	private MTPUser mtpUser;
@@ -40,8 +40,18 @@ public class MTP{
 		this.receivingSocket=recSocket;
 	}
 	
+	@Override
+	public void run() {
+		try {
+			this.listen();
+		} catch (IOException e) {
+			System.out.println("Error inicializando thread para escuchar puertos");
+			e.printStackTrace();
+		}
+	}
+	
 	@SuppressWarnings("unused")
-	private String send(Object msg) throws UnknownHostException, IOException{
+	public String send(Object msg) throws UnknownHostException, IOException{
 		@SuppressWarnings("resource")
 		Socket clientSocket = new Socket(host, sendingSocket);
 		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
@@ -54,7 +64,7 @@ public class MTP{
 	}
 	
 	@SuppressWarnings("unused")
-	private void listen() throws IOException{
+	public void listen() throws IOException{
 		@SuppressWarnings("resource")
 		ServerSocket welcomeSocket = new ServerSocket(receivingSocket);
 		System.out.println("MTP started, start listening...");
@@ -78,17 +88,12 @@ public class MTP{
 		}
 	}
 	
-	/**
-	 * Este metodo debe ser modificado por cada instacia particular de MTP
-	 * para que cada uno implemente el metodo necesario y que haga lo que desee con el mensaje
-	 * 
-	 * @param mensaje
-	 * @return
-	 */
-	protected Object manageMSG(Msg mensaje) {
-		return null;
+	public MTPUser getMtpUser() {
+		return mtpUser;
 	}
 
-	
+	public void setMtpUser(MTPUser mtpUser) {
+		this.mtpUser = mtpUser;
+	}
 
 }

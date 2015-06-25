@@ -1,5 +1,6 @@
 package uy.edu.um.telmovil.commons.components;
 
-public class VLR extends HLR {
+
+public class VLR {
 
 }
