@@ -24,7 +24,8 @@ public abstract class MTPUser {
 	 */
 	public void initializeMTP(MTP mptToInitialize){
 		mptToInitialize.setMtpUser(this);
-		(new Thread(mptToInitialize)).start();
+		Thread t = (new Thread(mptToInitialize));
+		t.start();
 	}
 
 }

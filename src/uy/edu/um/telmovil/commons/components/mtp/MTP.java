@@ -8,11 +8,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import uy.edu.um.telmovil.commons.ConstantesGenerales;
 import uy.edu.um.telmovil.commons.components.MTPUser;
 import uy.edu.um.telmovil.mgr.MsgManager;
 import uy.edu.um.telmovil.msg.Msg;
-import uy.edu.um.telmovil.msg.RegistrationMsg;
 
 import com.google.gson.Gson;
 
@@ -28,7 +26,7 @@ public class MTP implements Runnable{
 	private int SSN;
 	private MTPUser mtpUser;
 	
-	private static final Gson gson = new Gson();
+	private final Gson gson = new Gson();
 	
 	private int sendingSocket;
 	private int receivingSocket;
@@ -47,8 +45,14 @@ public class MTP implements Runnable{
 		} catch (IOException e) {
 			System.out.println("Error inicializando thread para escuchar puertos");
 			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
+	
+
+	
 	
 	@SuppressWarnings("unused")
 	public String send(Object msg) throws UnknownHostException, IOException{
@@ -59,18 +63,16 @@ public class MTP implements Runnable{
 		String mensaje = gson.toJson(msg);
 		outToServer.writeBytes(mensaje + '\n');
 		String response = inFromServer.readLine();
-		System.out.println("Respuesta desde el servidor: "+(response));
 		return response;
 	}
 	
 	@SuppressWarnings("unused")
 	public void listen() throws IOException{
-		@SuppressWarnings("resource")
-		ServerSocket welcomeSocket = new ServerSocket(receivingSocket);
-		System.out.println("MTP started, start listening...");
-		String clientSentence;
 		while(true)
 		{
+			ServerSocket welcomeSocket = new ServerSocket(receivingSocket);
+			System.out.println("MTP started, start listening...");
+			String clientSentence;
 			Socket connectionSocket = welcomeSocket.accept();
 			System.out.println("INFO: incoming conection from: "+connectionSocket.getInetAddress());
 			BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
@@ -78,7 +80,9 @@ public class MTP implements Runnable{
 			
 			Msg mensaje = MsgManager.obtenerMsgFromString(clientSentence);
 			this.mtpUser.MTPTransferIndication(mensaje, MTP_ID);
-
+			inFromClient.close();
+			welcomeSocket.close();
+			
 			
 //			Object responseToClient = this.owner.msgReceived(mensaje);
 
