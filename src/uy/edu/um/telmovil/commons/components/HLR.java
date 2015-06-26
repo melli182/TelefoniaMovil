@@ -51,14 +51,18 @@ public class HLR extends MTPUser{
 		switch (mensaje.getTipo()) {
 		case "Tipo1":
 			//callmethod1
+			System.out.println("1");
 			break;
 		case "Tipo2":
+			System.out.println("2");
 			//callmethod1
 			break;	
 		case "Tipo3":
+			System.out.println("3");
 			//callmethod1
 			break;
 		default:
+			System.out.println("EL tipo ingresado no coincide con ninguno valido");
 			break;
 		}
 	}
@@ -74,17 +78,30 @@ public class HLR extends MTPUser{
 	}
 	
 	public static void main(String[] args) {
-		HLR test = new HLR(1,2,2,1);
-		test.initializeMTP(test.mtpToGMSC);
-		test.initializeMTP(test.mtpToMSC);
+		HLR hlr = new HLR(44181,44182,44182,44181);
+		hlr.initializeMTP(hlr.mtpToGMSC);
+		hlr.initializeMTP(hlr.mtpToMSC);
+		
+		System.out.println("HOLA!");
+		
 		try {
+			Thread.sleep(1000);
 			Msg mensaje = new Msg();
-			mensaje.setTipo("TipoDePrueba");
-			test.mtpToGMSC.send(mensaje);
-			test.mtpToGMSC.send(mensaje);
+			mensaje.setTipo("Tipo1");
+			hlr.mtpToGMSC.send(mensaje);
+			mensaje.setTipo("Tipo2");
+			hlr.mtpToGMSC.send(mensaje);
+			mensaje.setTipo("Tipo3");
+			hlr.mtpToGMSC.send(mensaje);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		
+		System.out.println("HOLA!");
 	}
 }
