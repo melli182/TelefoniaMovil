@@ -2,13 +2,13 @@ package uy.edu.um.telmovil.msg;
 
 public class Msg {
 
-	private String tipo;
-
-	public String getTipo() {
-		return tipo;
+	String msg_type;
+	
+	public String getMsg_type() {
+		return this.msg_type;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setMsg_type(String tipo) {
+		this.msg_type=tipo;
 	}
 }
