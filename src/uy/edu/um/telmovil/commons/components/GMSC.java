@@ -72,7 +72,7 @@ public class GMSC extends MTPUser{
 			msgIAM.setMsrn(msg.getMsrn());
 			this.mtpToMSC.send(MSCHost, msgIAM);
 			
-			lastMessage="LLamada al numero "+msgIAM.getMsisdn();
+			lastMessage="LLamada al numero "+msgIAM.getMsrn();
 			
 			break;
 		case ConstantesGenerales.TIPO_MSG_SRI_ERROR:

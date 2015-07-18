@@ -84,7 +84,7 @@ public class MSC extends MTPUser{
 				
 			}else{
 				PRN_ACKMessage ackMsg= new PRN_ACKMessage();
-				ackMsg.setMsrn(prn.getImsi()+"Segun ines del VLR saca un MSRN");
+				ackMsg.setMsrn(prn.getImsi());
 				this.mtpToHLR.send(HLRHost,ackMsg);
 			}
 			
