@@ -3,6 +3,7 @@ package uy.edu.um.telmovil.commons.components;
 import java.util.ArrayList;
 
 import uy.edu.um.telmovil.commons.ConstantesGenerales;
+import uy.edu.um.telmovil.commons.ResourceUtils;
 import uy.edu.um.telmovil.commons.components.mtp.MTP;
 import uy.edu.um.telmovil.msg.IAMMessage;
 import uy.edu.um.telmovil.msg.Msg;
@@ -36,12 +37,12 @@ public class MSC extends MTPUser{
 	private ArrayList<MobilePhone> mobiles;
 	
 	
-	public MSC(int rGMSC, int sGMSC, int rHLR, int sHLR) {
+	public MSC() {
 		//asigno los puertos para envio y recibo de datos de los MTP
-		this.receivingHLR= rHLR;
-		this.receivingGMSC = rGMSC;
-		this.sendingHLR = sHLR;
-		this.sendingGMSC = sGMSC;
+		this.receivingHLR= Integer.valueOf(ResourceUtils.obtenerProperty(ResourceUtils.MSC_FROM_HLR_RECEIVING));
+		this.receivingGMSC = Integer.valueOf(ResourceUtils.obtenerProperty(ResourceUtils.MSC_FROM_GMSC_RECEIVING));
+		this.sendingHLR = Integer.valueOf(ResourceUtils.obtenerProperty(ResourceUtils.MSC_TO_HLR_SENDING));
+		this.sendingGMSC = Integer.valueOf(ResourceUtils.obtenerProperty(ResourceUtils.MSC_TO_GMSC_SENDING));
 
 		// creo cada uno de los MTP
 		MTP mtptoHLR = new MTP(this.receivingHLR, this.sendingHLR);
@@ -88,7 +89,7 @@ public class MSC extends MTPUser{
 	}
 	
 	public static void main(String[] args) {
-		MSC msc = new MSC(44005,44004,44001,44000);
+		MSC msc = new MSC();
 		msc.initializeMTP(msc.mtpToHLR);
 		msc.initializeMTP(msc.mtpToGMSC);
 		
