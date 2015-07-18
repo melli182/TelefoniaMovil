@@ -78,7 +78,7 @@ public class HLR extends MTPUser {
 			SRIMessage sri = (SRIMessage) mensaje;
 
 			HLRRow row = this.findRowByMsisdn(sri.getMsisdn());
-			
+
 			if (row != null) {
 				PRNMessage prnMsg = new PRNMessage();
 				prnMsg.setImsi(row.getImsi());
@@ -87,23 +87,23 @@ public class HLR extends MTPUser {
 				PRNMessage prnMsg = new PRNMessage();
 				prnMsg.setImsi(null);
 				this.mtpToMSC.send(MSCHost, prnMsg);
-//				PRN_ERRORMessage prn_error = new PRN_ERRORMessage();
-//				prn_error.setMsg_type(ConstantesGenerales.TIPO_MSG_PRN_ERROR);
-//				prn_error.setMsrn(sri.getMsisdn());
-//				this.mtpToMSC.send(MSCHost, prn_error);
+				// PRN_ERRORMessage prn_error = new PRN_ERRORMessage();
+				// prn_error.setMsg_type(ConstantesGenerales.TIPO_MSG_PRN_ERROR);
+				// prn_error.setMsrn(sri.getMsisdn());
+				// this.mtpToMSC.send(MSCHost, prn_error);
 			}
 
 			break;
 		case ConstantesGenerales.TIPO_MSG_PRN_ERROR:
 			System.out.println("[HLR]{Recibi un TIPO_MSG_PRN_ERROR de <MSC>}");
 			PRN_ERRORMessage prn_error = (PRN_ERRORMessage) mensaje;
-			
+
 			SRI_ERRORMessage sri_error = new SRI_ERRORMessage();
 			sri_error.setError_code(prn_error.getError_code());
-			System.out.println(sri_error.getError_code());
-			
+			// System.out.println(sri_error.getError_code());
+
 			this.mtpToGMSC.send(GMSCHost, sri_error);
-			
+
 		}
 	}
 
@@ -139,7 +139,7 @@ public class HLR extends MTPUser {
 	private void addRegistrosUruguay() {
 
 		registrosHLRUruguay = new ArrayList<HLRRow>();
-		
+
 		HLRRow row = new HLRRow();
 		row.setImsi("SIM-123456");
 		row.setCountryCodeOwner("Uruguay");
@@ -180,7 +180,7 @@ public class HLR extends MTPUser {
 	private void addRegistrosArgentina() {
 
 		registrosHLRArgentina = new ArrayList<HLRRow>();
-		
+
 		HLRRow row6 = new HLRRow();
 		row6.setImsi("SIM-369852");
 		row6.setCountryCodeOwner("Argentina");
