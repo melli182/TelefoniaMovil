@@ -77,15 +77,19 @@ public class HLR extends MTPUser {
 			SRIMessage sri = (SRIMessage) mensaje;
 
 			HLRRow row = this.findRowByMsisdn(sri.getMsisdn());
+			
 			if (row != null) {
 				PRNMessage prnMsg = new PRNMessage();
 				prnMsg.setImsi(row.getImsi());
 				this.mtpToMSC.send(MSCHost, prnMsg);
 			} else {
-				PRN_ERRORMessage prn_error = new PRN_ERRORMessage();
-				prn_error.setMsg_type(ConstantesGenerales.TIPO_MSG_PRN_ERROR);
-				prn_error.setMsrn(sri.getMsisdn());
-				this.mtpToMSC.send(MSCHost, prn_error);
+				PRNMessage prnMsg = new PRNMessage();
+				prnMsg.setImsi(null);
+				this.mtpToMSC.send(MSCHost, "");
+//				PRN_ERRORMessage prn_error = new PRN_ERRORMessage();
+//				prn_error.setMsg_type(ConstantesGenerales.TIPO_MSG_PRN_ERROR);
+//				prn_error.setMsrn(sri.getMsisdn());
+//				this.mtpToMSC.send(MSCHost, prn_error);
 			}
 
 			break;
@@ -123,6 +127,8 @@ public class HLR extends MTPUser {
 
 	private void addRegistrosUruguay() {
 
+		registrosHLRUruguay = new ArrayList<HLRRow>();
+		
 		HLRRow row = new HLRRow();
 		row.setImsi("SIM-123456");
 		row.setCountryCodeOwner("Uruguay");
@@ -162,6 +168,8 @@ public class HLR extends MTPUser {
 
 	private void addRegistrosArgentina() {
 
+		registrosHLRArgentina = new ArrayList<HLRRow>();
+		
 		HLRRow row6 = new HLRRow();
 		row6.setImsi("SIM-369852");
 		row6.setCountryCodeOwner("Argentina");
