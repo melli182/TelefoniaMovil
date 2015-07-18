@@ -75,9 +75,18 @@ public class MSC extends MTPUser{
 			//recibi del HLR un PRN
 			PRNMessage prn= (PRNMessage) mensaje;
 			
-			PRN_ACKMessage ackMsg= new PRN_ACKMessage();
-			ackMsg.setMsrn(prn.getImsi()+"Segun ines del VLR saca un MSRN");
-			this.mtpToHLR.send(HLRHost,ackMsg);
+			if(prn.getImsi() == null || prn.getImsi().isEmpty())
+			{
+				PRN_ERRORMessage errorMsg= new PRN_ERRORMessage();
+				errorMsg.setMsrn(null);
+				errorMsg.setError_code("COD-01_RegistroNoEncontrado");
+				this.mtpToHLR.send(HLRHost,errorMsg);
+				
+			}else{
+				PRN_ACKMessage ackMsg= new PRN_ACKMessage();
+				ackMsg.setMsrn(prn.getImsi()+"Segun ines del VLR saca un MSRN");
+				this.mtpToHLR.send(HLRHost,ackMsg);
+			}
 			
 			break;
 		case ConstantesGenerales.TIPO_MSG_IAM:
@@ -89,17 +98,7 @@ public class MSC extends MTPUser{
 
 			break;
 			
-		case ConstantesGenerales.TIPO_MSG_PRN_ERROR:
-			System.out.println("[MSC]{Recibi un TIPO_MSG_PRN_ERROR de <HLR>}");
-			
-			PRN_ERRORMessage prn_error= (PRN_ERRORMessage) mensaje;
-			
-			IAM_ERRORMessage iam_error = new IAM_ERRORMessage();
-			iam_error.setError_code("COD01-Numero no localizado");
-			iam_error.setNum(prn_error.getMsrn());
-			this.mtpToGMSC.send(GMSCHost, iam_error);
-		}
-		
+		}		
 	}
 	
 	public static void main(String[] args) {

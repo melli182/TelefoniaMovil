@@ -24,5 +24,17 @@ public class PRN_ERRORMessage extends Msg {
 	public void setMsrn(String msrn) {
 		this.msrn = msrn;
 	}
+
+
+	public String getError_code() {
+		return error_code;
+	}
+
+
+	public void setError_code(String error_code) {
+		this.error_code = error_code;
+	}
+	
+	
 	
 }
