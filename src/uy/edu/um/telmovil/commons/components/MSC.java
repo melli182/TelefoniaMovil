@@ -83,13 +83,8 @@ public class MSC extends MTPUser{
 			
 			IAMMessage iam = (IAMMessage) mensaje;
 			
-			System.out.println("LLAMO AL PUTO CELULAR:"+iam.getMsrn());
-			System.out.println("LLAMO AL PUTO CELULAR:"+iam.getMsrn());
-			System.out.println("LLAMO AL PUTO CELULAR:"+iam.getMsrn());
-			System.out.println("LLAMO AL PUTO CELULAR:"+iam.getMsrn());
-			
-		default:
-			System.out.println("[GMSC]{ERORR!!! RECIBI ALGO QUE NO ESPERABA}");
+			System.out.println("LLAMO AL CELULAR:"+iam.getMsrn());
+
 			break;
 		}
 		
