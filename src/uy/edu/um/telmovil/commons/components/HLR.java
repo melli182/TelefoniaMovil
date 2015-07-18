@@ -12,6 +12,7 @@ import uy.edu.um.telmovil.msg.PRN_ACKMessage;
 import uy.edu.um.telmovil.msg.PRN_ERRORMessage;
 import uy.edu.um.telmovil.msg.SRIMessage;
 import uy.edu.um.telmovil.msg.SRI_ACKMessage;
+import uy.edu.um.telmovil.msg.SRI_ERRORMessage;
 
 public class HLR extends MTPUser {
 
@@ -93,6 +94,15 @@ public class HLR extends MTPUser {
 			}
 
 			break;
+		case ConstantesGenerales.TIPO_MSG_PRN_ERROR:
+			System.out.println("[HLR]{Recibi un TIPO_MSG_PRN_ERROR de <MSC>}");
+			PRN_ERRORMessage prn_error = (PRN_ERRORMessage) mensaje;
+			
+			SRI_ERRORMessage sri_error = new SRI_ERRORMessage();
+			sri_error.setError_code(prn_error.getError_code());
+			
+			this.mtpToGMSC.send(GMSCHost, sri_error);
+			
 		}
 	}
 
