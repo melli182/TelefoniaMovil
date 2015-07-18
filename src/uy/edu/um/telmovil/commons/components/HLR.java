@@ -86,7 +86,7 @@ public class HLR extends MTPUser {
 			} else {
 				PRNMessage prnMsg = new PRNMessage();
 				prnMsg.setImsi(null);
-				this.mtpToMSC.send(MSCHost, "");
+				this.mtpToMSC.send(MSCHost, prnMsg);
 //				PRN_ERRORMessage prn_error = new PRN_ERRORMessage();
 //				prn_error.setMsg_type(ConstantesGenerales.TIPO_MSG_PRN_ERROR);
 //				prn_error.setMsrn(sri.getMsisdn());
@@ -100,6 +100,7 @@ public class HLR extends MTPUser {
 			
 			SRI_ERRORMessage sri_error = new SRI_ERRORMessage();
 			sri_error.setError_code(prn_error.getError_code());
+			System.out.println(sri_error.getError_code());
 			
 			this.mtpToGMSC.send(GMSCHost, sri_error);
 			
@@ -127,7 +128,7 @@ public class HLR extends MTPUser {
 	}
 
 	private ArrayList<HLRRow> getHLRToIterate(String msisdn) {
-		String cc = msisdn.substring(1, 3);
+		String cc = msisdn.substring(0, 3);
 		if (cc.equals("598"))
 			return registrosHLRUruguay;
 		if (cc.equals("722"))
