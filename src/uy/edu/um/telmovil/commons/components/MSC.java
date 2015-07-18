@@ -6,9 +6,11 @@ import uy.edu.um.telmovil.commons.ConstantesGenerales;
 import uy.edu.um.telmovil.commons.ResourceUtils;
 import uy.edu.um.telmovil.commons.components.mtp.MTP;
 import uy.edu.um.telmovil.msg.IAMMessage;
+import uy.edu.um.telmovil.msg.IAM_ERRORMessage;
 import uy.edu.um.telmovil.msg.Msg;
 import uy.edu.um.telmovil.msg.PRNMessage;
 import uy.edu.um.telmovil.msg.PRN_ACKMessage;
+import uy.edu.um.telmovil.msg.PRN_ERRORMessage;
 import uy.edu.um.telmovil.msg.SRIMessage;
 import uy.edu.um.telmovil.msg.SRI_ACKMessage;
 
@@ -86,6 +88,16 @@ public class MSC extends MTPUser{
 			System.out.println("LLAMO AL CELULAR:"+iam.getMsrn());
 
 			break;
+			
+		case ConstantesGenerales.TIPO_MSG_PRN_ERROR:
+			System.out.println("[MSC]{Recibi un TIPO_MSG_PRN_ERROR de <HLR>}");
+			
+			PRN_ERRORMessage prn_error= (PRN_ERRORMessage) mensaje;
+			
+			IAM_ERRORMessage iam_error = new IAM_ERRORMessage();
+			iam_error.setError_code("COD01-Numero no localizado");
+			iam_error.setNum(prn_error.getMsrn());
+			this.mtpToGMSC.send(GMSCHost, iam_error);
 		}
 		
 	}

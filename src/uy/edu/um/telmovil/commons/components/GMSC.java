@@ -29,6 +29,8 @@ public class GMSC extends MTPUser{
 	private String HLRHost;
 	private String MSCHost;
 	
+	private String lastMessage;
+	
 	public GMSC() {
 		//asigno los puertos para envio y recibo de datos de los MTP
 		this.receivingHLR= Integer.valueOf(ResourceUtils.obtenerProperty(ResourceUtils.GMSC_FROM_HLR_RECEIVING));
@@ -69,6 +71,8 @@ public class GMSC extends MTPUser{
 			IAMMessage msgIAM  = new IAMMessage();
 			msgIAM.setMsrn(msg.getMsrn());
 			this.mtpToMSC.send(MSCHost, msgIAM);
+			
+			lastMessage="LLamada al numero "+msgIAM.getMsisdn();
 			
 			break;
 		case ConstantesGenerales.TIPO_MSG_SRI_ERROR:
@@ -119,6 +123,14 @@ public class GMSC extends MTPUser{
 
 	public void setMtpToMSC(MTP mtpToMSC) {
 		this.mtpToMSC = mtpToMSC;
+	}
+
+	public String getLastMessage() {
+		return lastMessage;
+	}
+
+	public void setLastMessage(String lastMessage) {
+		this.lastMessage = lastMessage;
 	}
 
 }
