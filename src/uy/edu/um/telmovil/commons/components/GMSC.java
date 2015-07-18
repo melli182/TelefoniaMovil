@@ -79,7 +79,7 @@ public class GMSC extends MTPUser{
 		case ConstantesGenerales.TIPO_MSG_SRI_ERROR:
 			System.out.println("[GMSC]{Recibi un TIPO_MSG_SRI_ERROR}");
 			SRI_ERRORMessage sri_error = (SRI_ERRORMessage) mensaje;
-			lastMessage="ERRRO{"+sri_error.getError_code()+"} Hubo un SRI_ERROR, posiblemente el numero no halla sido encontrado";
+			lastMessage="ERRROR{"+sri_error.getError_code()+"} Hubo un SRI_ERROR, posiblemente el numero no halla sido encontrado";
 			break;
 		case ConstantesGenerales.TIPO_MSG_IAM:
 			System.out.println("[GMSC]{Recibi un TIPO_MSG_IAM del <PSTN>}");
