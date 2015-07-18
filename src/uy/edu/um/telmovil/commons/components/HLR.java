@@ -77,7 +77,8 @@ public class HLR extends MTPUser{
 			SRIMessage sri = (SRIMessage) mensaje;
 			
 			PRNMessage prnMsg = new PRNMessage();
-			prnMsg.setImsi(sri.getMsisdn()+"Debo Obtener el IMSI de la tabla del HLR");
+			HLRRow row = this.findRowByMsisdn(sri.getMsisdn());
+			prnMsg.setImsi(row.getImsi());
 			
 			this.mtpToMSC.send(MSCHost, prnMsg);
 			
@@ -85,7 +86,83 @@ public class HLR extends MTPUser{
 		}
 	}
 
+	private HLRRow findRowByMsisdn(String msisdn) {
+		// TODO Auto-generated method stub
+		HLRRow toRet = new HLRRow();
+		
+		for (HLRRow row : rows) {
+			if (row.getMsisdn().equals(msisdn)) {
+				toRet = row;
+			}
+		}
+		
+		return toRet;
+	}
 
+
+	private void addRows() {
+		
+		HLRRow row = new HLRRow();
+		row.setImsi("SIM-123456");
+		row.setCountryCodeOwner("Uruguay");
+		row.setCountryCodeVisitor("Argentina");
+		rows.add(row);
+		
+		HLRRow row2 = new HLRRow();
+		row.setImsi("SIM-456789");
+		row.setCountryCodeOwner("Uruguay");
+		row.setCountryCodeVisitor("Argentina");
+		rows.add(row2);
+		
+		HLRRow row3 = new HLRRow();
+		row.setImsi("SIM-123789");
+		row.setCountryCodeOwner("Uruguay");
+		row.setCountryCodeVisitor("Argentina");
+		rows.add(row3);
+		
+		HLRRow row4 = new HLRRow();
+		row.setImsi("SIM-112233");
+		row.setCountryCodeOwner("Uruguay");
+		row.setCountryCodeVisitor("Argentina");
+		rows.add(row4);
+		
+		HLRRow row5 = new HLRRow();
+		row.setImsi("SIM-147258");
+		row.setCountryCodeOwner("Uruguay");
+		row.setCountryCodeVisitor("Argentina");
+		rows.add(row5);
+		
+		HLRRow row6 = new HLRRow();
+		row.setImsi("SIM-369852");
+		row.setCountryCodeOwner("Argentina");
+		row.setCountryCodeVisitor("Uruguay");
+		rows.add(row6);
+		
+		HLRRow row7 = new HLRRow();
+		row.setImsi("SIM-321987");
+		row.setCountryCodeOwner("Argentina");
+		row.setCountryCodeVisitor("Uruguay");
+		rows.add(row7);
+		
+		HLRRow row8 = new HLRRow();
+		row.setImsi("SIM-159753");
+		row.setCountryCodeOwner("Argentina");
+		row.setCountryCodeVisitor("Uruguay");
+		rows.add(row8);
+		
+		HLRRow row9 = new HLRRow();
+		row.setImsi("SIM-426751");
+		row.setCountryCodeOwner("Argentina");
+		row.setCountryCodeVisitor("Uruguay");
+		rows.add(row9);
+		
+		HLRRow row10 = new HLRRow();
+		row.setImsi("SIM-103971");
+		row.setCountryCodeOwner("Argentina");
+		row.setCountryCodeVisitor("Uruguay");
+		rows.add(row10);
+		
+	}
 
 	public List<HLRRow> getRows() {
 		return rows;
