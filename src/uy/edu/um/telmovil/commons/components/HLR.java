@@ -69,6 +69,8 @@ public class HLR extends MTPUser{
 			sri_ackMSG.setMsrn(msg.getMsrn());
 			
 			System.out.println("1");
+			this.mtpToGMSC.send(GMSCHost, sri_ackMSG);
+			
 			break;
 		case ConstantesGenerales.TIPO_MSG_SRI:
 			System.out.println("[HLR]{Recibi un TIPO_MSG_SRI de <GMSC>}");
@@ -79,8 +81,6 @@ public class HLR extends MTPUser{
 			
 			this.mtpToMSC.send(MSCHost, prnMsg);
 			
-		default:
-			System.out.println("EL tipo ingresado no coincide con ninguno valido");
 			break;
 		}
 	}
