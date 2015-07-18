@@ -69,7 +69,6 @@ public class HLR extends MTPUser {
 			SRI_ACKMessage sri_ackMSG = new SRI_ACKMessage();
 			sri_ackMSG.setMsrn(msg.getMsrn());
 
-			System.out.println("1");
 			this.mtpToGMSC.send(GMSCHost, sri_ackMSG);
 
 			break;
