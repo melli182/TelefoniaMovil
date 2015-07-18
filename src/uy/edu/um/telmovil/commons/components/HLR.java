@@ -23,6 +23,9 @@ public class HLR extends MTPUser{
 	private int sendingGMSC;
 	private int receivingGMSC;
 	
+	private String MSCHost;
+	private String GMSCHost;
+	
 	private List<HLRRow> rows;
 	
 	
@@ -32,6 +35,9 @@ public class HLR extends MTPUser{
 		this.receivingMSC = Integer.valueOf(ResourceUtils.obtenerProperty(ResourceUtils.HLR_FROM_MSC_RECEIVING));
 		this.sendingGMSC = Integer.valueOf(ResourceUtils.obtenerProperty(ResourceUtils.HLR_TO_GMSC_SENDING));
 		this.sendingMSC = Integer.valueOf(ResourceUtils.obtenerProperty(ResourceUtils.HLR_TO_MSC_SENDING));
+		
+		this.GMSCHost=ResourceUtils.obtenerProperty(ResourceUtils.GMSC_HOST);
+		this.MSCHost=ResourceUtils.obtenerProperty(ResourceUtils.MSC_HOST);
 		
 		
 		//creo cada uno de los MTP
@@ -71,7 +77,7 @@ public class HLR extends MTPUser{
 			PRNMessage prnMsg = new PRNMessage();
 			prnMsg.setImsi(sri.getMsisdn()+"Debo Obtener el IMSI de la tabla del HLR");
 			
-			this.mtpToMSC.send(prnMsg);
+			this.mtpToMSC.send(MSCHost, prnMsg);
 			
 		default:
 			System.out.println("EL tipo ingresado no coincide con ninguno valido");

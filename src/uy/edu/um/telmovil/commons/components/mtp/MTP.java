@@ -29,7 +29,6 @@ public class MTP implements Runnable {
 
 	private int sendingSocket;
 	private int receivingSocket;
-	private String host = "localhost";
 	private long MTP_ID;
 
 	public MTP(int sendingScoket, int recSocket) {
@@ -48,10 +47,10 @@ public class MTP implements Runnable {
 	}
 
 	@SuppressWarnings("unused")
-	public String send(Object msg) {
+	public String send(String destination, Object msg) {
 		try {
 			@SuppressWarnings("resource")
-			Socket clientSocket = new Socket(host, sendingSocket);
+			Socket clientSocket = new Socket(destination, sendingSocket);
 			DataOutputStream outToServer = new DataOutputStream(
 					clientSocket.getOutputStream());
 			BufferedReader inFromServer = new BufferedReader(

@@ -33,6 +33,9 @@ public class MSC extends MTPUser{
 	private int sendingHLR;
 	private int receivingHLR;
 	
+	private String GMSCHost;
+	private String HLRHost;
+	
 	
 	private ArrayList<MobilePhone> mobiles;
 	
@@ -44,6 +47,10 @@ public class MSC extends MTPUser{
 		this.sendingHLR = Integer.valueOf(ResourceUtils.obtenerProperty(ResourceUtils.MSC_TO_HLR_SENDING));
 		this.sendingGMSC = Integer.valueOf(ResourceUtils.obtenerProperty(ResourceUtils.MSC_TO_GMSC_SENDING));
 
+		this.HLRHost=ResourceUtils.obtenerProperty(ResourceUtils.HLR_HOST);
+		this.GMSCHost=ResourceUtils.obtenerProperty(ResourceUtils.GMSC_HOST);
+
+		
 		// creo cada uno de los MTP
 		MTP mtptoHLR = new MTP(this.receivingHLR, this.sendingHLR);
 		mtptoHLR.setMtpUser(this);
@@ -68,7 +75,7 @@ public class MSC extends MTPUser{
 			
 			PRN_ACKMessage ackMsg= new PRN_ACKMessage();
 			ackMsg.setMsrn(prn.getImsi()+"Segun ines del VLR saca un MSRN");
-			this.mtpToHLR.send(ackMsg);
+			this.mtpToHLR.send(HLRHost,ackMsg);
 			
 			break;
 		case ConstantesGenerales.TIPO_MSG_IAM:

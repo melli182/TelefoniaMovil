@@ -26,6 +26,9 @@ public class GMSC extends MTPUser{
 	private int sendingHLR;
 	private int receivingHLR;
 	
+	private String HLRHost;
+	private String MSCHost;
+	
 	public GMSC() {
 		//asigno los puertos para envio y recibo de datos de los MTP
 		this.receivingHLR= Integer.valueOf(ResourceUtils.obtenerProperty(ResourceUtils.GMSC_FROM_HLR_RECEIVING));
@@ -33,6 +36,10 @@ public class GMSC extends MTPUser{
 		this.sendingHLR = Integer.valueOf(ResourceUtils.obtenerProperty(ResourceUtils.GMSC_TO_HLR_SENDING));
 		this.sendingMSC = Integer.valueOf(ResourceUtils.obtenerProperty(ResourceUtils.GMSC_TO_MSC_SENDING));
 
+		this.HLRHost=ResourceUtils.obtenerProperty(ResourceUtils.HLR_HOST);
+		this.MSCHost=ResourceUtils.obtenerProperty(ResourceUtils.MSC_HOST);
+		
+		
 		// creo cada uno de los MTP
 		MTP mtptoHLR = new MTP(this.receivingHLR, this.sendingHLR);
 		mtptoHLR.setMtpUser(this);
@@ -61,7 +68,7 @@ public class GMSC extends MTPUser{
 			
 			IAMMessage msgIAM  = new IAMMessage();
 			msgIAM.setMsrn(msg.getMsrn());
-			this.mtpToMSC.send(msgIAM);
+			this.mtpToMSC.send(MSCHost, msgIAM);
 			
 			break;
 		case ConstantesGenerales.TIPO_MSG_SRI_ERROR:
@@ -74,7 +81,7 @@ public class GMSC extends MTPUser{
 			SRIMessage sriMsg = new SRIMessage();
 			sriMsg.setMsisdn(msg2.getMsisdn());
 
-			mtpToHLR.send(sriMsg);
+			mtpToHLR.send(HLRHost, sriMsg);
 			
 			break;	
 		case ConstantesGenerales.TIPO_MSG_IAM_ERROR:
