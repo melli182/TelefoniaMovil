@@ -9,6 +9,7 @@ import uy.edu.um.telmovil.msg.IAMMessage;
 import uy.edu.um.telmovil.msg.Msg;
 import uy.edu.um.telmovil.msg.SRIMessage;
 import uy.edu.um.telmovil.msg.SRI_ACKMessage;
+import uy.edu.um.telmovil.msg.SRI_ERRORMessage;
 
 /**
  * Esta clase se encarga de verificar si el ID del terminal es borrado
@@ -77,7 +78,8 @@ public class GMSC extends MTPUser{
 			break;
 		case ConstantesGenerales.TIPO_MSG_SRI_ERROR:
 			System.out.println("[GMSC]{Recibi un TIPO_MSG_SRI_ERROR}");
-			lastMessage="Hubo un SRI_ERROR, posiblemente el numero no halla sido encontrado";
+			SRI_ERRORMessage sri_error = (SRI_ERRORMessage) mensaje;
+			lastMessage="ERRRO{"+sri_error.getError_code()+"} Hubo un SRI_ERROR, posiblemente el numero no halla sido encontrado";
 			break;
 		case ConstantesGenerales.TIPO_MSG_IAM:
 			System.out.println("[GMSC]{Recibi un TIPO_MSG_IAM del <PSTN>}");
