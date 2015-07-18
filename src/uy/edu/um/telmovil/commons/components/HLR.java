@@ -1,10 +1,10 @@
 package uy.edu.um.telmovil.commons.components;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import uy.edu.um.telmovil.commons.ConstantesGenerales;
+import uy.edu.um.telmovil.commons.ResourceUtils;
 import uy.edu.um.telmovil.commons.components.mtp.MTP;
 import uy.edu.um.telmovil.msg.Msg;
 import uy.edu.um.telmovil.msg.PRNMessage;
@@ -26,12 +26,12 @@ public class HLR extends MTPUser{
 	private List<HLRRow> rows;
 	
 	
-	public HLR(int rMSC, int sMSC, int rGMSC, int sGMSC) {
+	public HLR() {
 		//asigno los puertos para envio y recibo de datos de los MTP
-		this.receivingGMSC = rGMSC;
-		this.receivingMSC = rMSC;
-		this.sendingGMSC = sGMSC;
-		this.sendingMSC = sMSC;
+		this.receivingGMSC = Integer.valueOf(ResourceUtils.obtenerProperty(ResourceUtils.HLR_FROM_GMSC_RECEIVING));
+		this.receivingMSC = Integer.valueOf(ResourceUtils.obtenerProperty(ResourceUtils.HLR_FROM_MSC_RECEIVING));
+		this.sendingGMSC = Integer.valueOf(ResourceUtils.obtenerProperty(ResourceUtils.HLR_TO_GMSC_SENDING));
+		this.sendingMSC = Integer.valueOf(ResourceUtils.obtenerProperty(ResourceUtils.HLR_TO_MSC_SENDING));
 		
 		
 		//creo cada uno de los MTP
@@ -90,7 +90,7 @@ public class HLR extends MTPUser{
 	}
 	
 	public static void main(String[] args) {
-		HLR hlr = new HLR(44000,44001,44002,44003);
+		HLR hlr = new HLR();
 		hlr.initializeMTP(hlr.mtpToGMSC);
 		hlr.initializeMTP(hlr.mtpToMSC);
 		
