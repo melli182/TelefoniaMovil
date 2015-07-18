@@ -105,5 +105,20 @@ public class GMSC extends MTPUser{
 		gmsc.MTPTransferIndication(iam_autogenerado, 1);
 	}
 	
+	public MTP getMtpToHLR() {
+		return mtpToHLR;
+	}
+
+	public void setMtpToHLR(MTP mtpToHLR) {
+		this.mtpToHLR = mtpToHLR;
+	}
+
+	public MTP getMtpToMSC() {
+		return mtpToMSC;
+	}
+
+	public void setMtpToMSC(MTP mtpToMSC) {
+		this.mtpToMSC = mtpToMSC;
+	}
 
 }
