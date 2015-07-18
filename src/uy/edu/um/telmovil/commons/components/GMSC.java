@@ -88,9 +88,6 @@ public class GMSC extends MTPUser{
 			System.out.println("[GMSC]{Recibi un TIPO_MSG_IAM_ERROR}");
 			//callmethod1
 			break;
-		default:
-			System.out.println("[GMSC]{ERORR!!! RECIBI ALGO QUE NO ESPERABA}");
-			break;
 		}
 		
 	}
